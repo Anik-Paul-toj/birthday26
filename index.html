@@ -1170,75 +1170,40 @@
     <script type="text/babel">
       const galleryImages = [
         {
-          src: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=900&q=80",
-          caption: "The kind of quiet that feels like home.",
-          span: "md:col-span-2 md:row-span-2",
+          src: "image1.jpeg",
+          caption: "My Shinchan paglu",
         },
         {
-          src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
-          caption: "Little moments, impossible to forget.",
-          span: "md:row-span-2",
+          src: "image2.jpeg",
+          caption: "Love you to the moon and back, and then some.",
         },
         {
-          src: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=900&q=80",
-          caption: "Every sky started looking softer after you.",
-          span: "",
+          src: "image3.jpeg",
+          caption: "My princess in a galaxy of her own.",
         },
         {
-          src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+          src: "image4.jpeg",
           caption: "A universe made from ordinary magic.",
-          span: "",
         },
         {
-          src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+          src: "image5.jpeg",
           caption: "The future, glowing quietly in the distance.",
-          span: "md:col-span-2",
         },
         {
-          src: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=900&q=80",
-          caption: "Proof that time can hold its breath.",
-          span: "",
+          src: "image6.jpeg",
+          caption: "Will you dance with me through every universe we find ourselves in?",
+        },
+        {
+          src: "image7.jpeg",
+          caption: "Always be my weirdo, in this universe and the next.",
+        },
+        {
+          src: "image8.jpeg",
+          caption: "Be like that forever, my love.",
         },
       ];
 
-      const MemoriesGallery = () => {
-        const [activeIndex, setActiveIndex] = React.useState(null);
-        const activeImage = activeIndex === null ? null : galleryImages[activeIndex];
-
-        React.useEffect(() => {
-          const handleKeyDown = (event) => {
-            if (activeIndex === null) return;
-            if (event.key === "Escape") setActiveIndex(null);
-            if (event.key === "ArrowRight") {
-              setActiveIndex((current) => (current + 1) % galleryImages.length);
-            }
-            if (event.key === "ArrowLeft") {
-              setActiveIndex(
-                (current) => (current - 1 + galleryImages.length) % galleryImages.length
-              );
-            }
-          };
-
-          document.addEventListener("keydown", handleKeyDown);
-          document.body.style.overflow = activeIndex === null ? "" : "hidden";
-
-          return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.body.style.overflow = "";
-          };
-        }, [activeIndex]);
-
-        const showPrevious = () => {
-          setActiveIndex(
-            (current) => (current - 1 + galleryImages.length) % galleryImages.length
-          );
-        };
-
-        const showNext = () => {
-          setActiveIndex((current) => (current + 1) % galleryImages.length);
-        };
-
-        return (
+      const MemoriesGallery = () => (
           <section
             id="memories"
             className="romantic-cosmos section-fade-bottom relative min-h-screen overflow-hidden bg-black px-6 py-24 md:px-16 lg:px-20"
@@ -1273,7 +1238,7 @@
                 </p>
               </motion.div>
 
-              <div className="mt-10 grid auto-rows-[150px] grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:auto-rows-[140px]">
+              <div className="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-3">
                 {galleryImages.map((item, index) => (
                   <motion.button
                     key={item.src}
@@ -1282,17 +1247,21 @@
                     whileHover={{ scale: 1.025 }}
                     onMouseMove={window.moveReactiveCard}
                     onMouseLeave={window.resetReactiveCard}
-                    onClick={() => setActiveIndex(index)}
-                    className={`liquid-glass reactive-card interactive-glow group relative min-h-[150px] overflow-hidden rounded-[1.25rem] text-left ${item.span}`}
+                    className="liquid-glass reactive-card interactive-glow group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-[1.25rem] text-left"
                   >
                     <img
                       src={item.src}
                       alt={item.caption}
-                      className="h-full w-full object-cover opacity-85 blur-[1.5px] transition duration-500 group-hover:opacity-100 group-hover:blur-0"
+                      className="block h-auto w-full opacity-95 transition duration-500 group-hover:scale-[1.025] group-hover:opacity-100"
                     />
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      <div className="liquid-glass inline-flex rounded-full px-3 py-1 font-body text-xs text-white">
-                        Memory {String(index + 1).padStart(2, "0")}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/38 p-4 opacity-0 backdrop-blur-[2px] transition duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
+                      <div className="liquid-glass max-w-[86%] rounded-[1rem] px-4 py-3 text-center">
+                        <div className="font-body text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70">
+                          Memory {String(index + 1).padStart(2, "0")}
+                        </div>
+                        <p className="mt-1 font-body text-sm font-medium leading-tight text-white">
+                          {item.caption}
+                        </p>
                       </div>
                     </div>
                   </motion.button>
@@ -1300,66 +1269,8 @@
               </div>
             </div>
 
-            {activeImage && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-4 backdrop-blur-2xl"
-                onClick={() => setActiveIndex(null)}
-              >
-                <motion.div
-                  initial={{ opacity: 0, filter: "blur(18px)", y: 18, scale: 0.96 }}
-                  animate={{ opacity: 1, filter: "blur(0px)", y: 0, scale: 1 }}
-                  transition={{ duration: 0.55, ease: "easeOut" }}
-                  className="relative w-full max-w-5xl"
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActiveIndex(null)}
-                    className="liquid-glass absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full text-white"
-                    aria-label="Close memory"
-                  >
-                    <XIcon />
-                  </button>
-
-                  <div className="liquid-glass overflow-hidden rounded-[1.25rem] p-2">
-                    <img
-                      src={activeImage.src}
-                      alt={activeImage.caption}
-                      className="max-h-[72vh] w-full rounded-[1rem] object-cover"
-                    />
-                    <div className="flex items-center justify-between gap-4 px-4 py-4">
-                      <p className="font-body text-sm font-light text-white/90">
-                        {activeImage.caption}
-                      </p>
-                      <div className="flex gap-2">
-                        <button
-                          type="button"
-                          onClick={showPrevious}
-                          className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full text-white"
-                          aria-label="Previous memory"
-                        >
-                          <ChevronLeft />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={showNext}
-                          className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full text-white"
-                          aria-label="Next memory"
-                        >
-                          <ChevronRight />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
           </section>
-        );
-      };
+      );
 
       window.MemoriesGallery = MemoriesGallery;
     </script>
