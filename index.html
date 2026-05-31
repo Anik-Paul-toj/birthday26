@@ -96,6 +96,51 @@
         background: #000;
         color: #fff;
         font-family: "Barlow", sans-serif;
+        scrollbar-color: rgba(236, 72, 153, 0.55) rgba(255, 255, 255, 0.04);
+        scrollbar-width: thin;
+      }
+
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background:
+          linear-gradient(
+            180deg,
+            rgba(236, 72, 153, 0.08),
+            rgba(168, 85, 247, 0.07)
+          ),
+          rgba(0, 0, 0, 0.92);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border: 3px solid rgba(0, 0, 0, 0.9);
+        border-radius: 9999px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.86),
+            rgba(236, 72, 153, 0.64),
+            rgba(168, 85, 247, 0.58)
+          );
+        box-shadow:
+          0 0 18px rgba(236, 72, 153, 0.42),
+          inset 0 1px 1px rgba(255, 255, 255, 0.38);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(244, 114, 182, 0.78),
+            rgba(192, 132, 252, 0.72)
+          );
+        box-shadow:
+          0 0 24px rgba(236, 72, 153, 0.62),
+          0 0 38px rgba(168, 85, 247, 0.34),
+          inset 0 1px 1px rgba(255, 255, 255, 0.46);
       }
 
       .fading-video {
