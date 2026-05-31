@@ -1,0 +1,2216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinematic Birthday Love Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              heading: ["Instrument Serif", "serif"],
+              body: ["Barlow", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <script
+      src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
+    <script>
+      window.Motion = window.FramerMotion || window.Motion || {};
+
+      if (!window.Motion.motion && window.React) {
+        const strippedMotionProps = new Set([
+          "initial",
+          "animate",
+          "whileInView",
+          "whileHover",
+          "whileTap",
+          "exit",
+          "variants",
+          "layout",
+          "viewport",
+          "transition",
+        ]);
+
+        window.Motion.motion = new Proxy(
+          {},
+          {
+            get: function (_, tag) {
+              return React.forwardRef(function MotionFallback(props, ref) {
+                const cleanProps = {};
+
+                Object.keys(props || {}).forEach(function (key) {
+                  if (!strippedMotionProps.has(key)) {
+                    cleanProps[key] = props[key];
+                  }
+                });
+
+                return React.createElement(tag, { ...cleanProps, ref: ref });
+              });
+            },
+          }
+        );
+      }
+    </script>
+    <style>
+      html,
+      body,
+      #root {
+        min-height: 100%;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #000;
+        color: #fff;
+        font-family: "Barlow", sans-serif;
+      }
+
+      .fading-video {
+        transition: none !important;
+        will-change: opacity;
+      }
+
+      .liquid-glass {
+        background: rgba(255, 255, 255, 0.01);
+        background-blend-mode: luminosity;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: none;
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .liquid-glass::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.4px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.45) 0%,
+          rgba(255, 255, 255, 0.15) 20%,
+          rgba(255, 255, 255, 0) 40%,
+          rgba(255, 255, 255, 0) 60%,
+          rgba(255, 255, 255, 0.15) 80%,
+          rgba(255, 255, 255, 0.45) 100%
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .liquid-glass-strong {
+        background: rgba(255, 255, 255, 0.01);
+        background-blend-mode: luminosity;
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);
+        border: none;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05),
+          inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .liquid-glass-strong::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.4px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(255, 255, 255, 0.2) 20%,
+          rgba(255, 255, 255, 0) 40%,
+          rgba(255, 255, 255, 0) 60%,
+          rgba(255, 255, 255, 0.2) 80%,
+          rgba(255, 255, 255, 0.5) 100%
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      .romantic-cosmos::after {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        z-index: 1;
+        pointer-events: none;
+        background:
+          radial-gradient(
+            circle at 18% 22%,
+            rgba(236, 72, 153, 0.18),
+            transparent 28%
+          ),
+          radial-gradient(
+            circle at 78% 18%,
+            rgba(168, 85, 247, 0.16),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 52% 78%,
+            rgba(217, 70, 239, 0.12),
+            transparent 34%
+        );
+        mix-blend-mode: screen;
+      }
+
+      .section-fade-bottom::before,
+      .section-fade-top::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      .section-fade-bottom::before {
+        bottom: -1px;
+        height: 240px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(8, 2, 12, 0.72) 58%,
+          #000 100%
+        );
+      }
+
+      .section-fade-top::before {
+        top: 0;
+        height: 320px;
+        background: linear-gradient(
+          180deg,
+          #000 0%,
+          rgba(8, 2, 12, 0.82) 34%,
+          rgba(8, 2, 12, 0.34) 68%,
+          rgba(0, 0, 0, 0) 100%
+        );
+      }
+
+      .interactive-glow {
+        transition:
+          transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+          filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .interactive-glow:hover {
+        box-shadow:
+          0 22px 70px rgba(217, 70, 239, 0.18),
+          inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        filter: saturate(1.08);
+        transform: translate3d(0, -6px, 0) scale(1.015);
+      }
+
+      .cinematic-text {
+        color: rgba(255, 255, 255, 0.98);
+        text-shadow:
+          0 2px 14px rgba(0, 0, 0, 0.78),
+          0 0 34px rgba(0, 0, 0, 0.62),
+          0 0 22px rgba(236, 72, 153, 0.2);
+      }
+
+      .cinematic-text-soft {
+        color: rgba(255, 255, 255, 0.94);
+        text-shadow:
+          0 1px 10px rgba(0, 0, 0, 0.82),
+          0 0 24px rgba(0, 0, 0, 0.58);
+      }
+
+      .stat-card-muted {
+        background: rgba(255, 255, 255, 0.004);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.055);
+      }
+
+      .stat-card-muted::before {
+        opacity: 0.42;
+      }
+
+      .reactive-card {
+        transform:
+          perspective(900px)
+          rotateX(var(--tilt-y, 0deg))
+          rotateY(var(--tilt-x, 0deg))
+          translate3d(0, 0, 0);
+      }
+
+      .cosmic-stars {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .cosmic-star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: 0 0 14px rgba(236, 72, 153, 0.55);
+        animation: starDrift var(--duration, 9s) ease-in-out infinite alternate;
+        opacity: var(--opacity, 0.7);
+      }
+
+      @keyframes starDrift {
+        from {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        to {
+          transform: translate3d(var(--drift-x, 20px), var(--drift-y, -24px), 0)
+            scale(1.35);
+        }
+      }
+
+      .loader-screen {
+        background:
+          radial-gradient(circle at 50% 30%, rgba(168, 85, 247, 0.2), transparent 34%),
+          radial-gradient(circle at 20% 70%, rgba(236, 72, 153, 0.12), transparent 28%),
+          #000;
+      }
+
+      .auth-screen {
+        background:
+          radial-gradient(circle at 25% 30%, rgba(236, 72, 153, 0.16), transparent 32%),
+          radial-gradient(circle at 78% 66%, rgba(168, 85, 247, 0.14), transparent 34%),
+          #000;
+      }
+
+      .pin-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      }
+
+      .pin-dot.is-filled {
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow:
+          0 0 18px rgba(236, 72, 153, 0.55),
+          0 0 34px rgba(168, 85, 247, 0.28);
+      }
+
+      .loader-screen.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(1.02);
+      }
+
+      .typewriter-cursor {
+        display: inline-block;
+        width: 1px;
+        height: 1em;
+        margin-left: 4px;
+        background: rgba(255, 255, 255, 0.85);
+        animation: cursorBlink 900ms steps(2, start) infinite;
+        vertical-align: -0.12em;
+      }
+
+      @keyframes cursorBlink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .music-eq {
+        display: grid;
+        grid-template-columns: repeat(3, 3px);
+        align-items: end;
+        gap: 3px;
+        height: 16px;
+      }
+
+      .music-eq span {
+        display: block;
+        height: 6px;
+        border-radius: 9999px;
+        background: currentColor;
+        opacity: 0.55;
+      }
+
+      .music-playing .music-eq span {
+        animation: equalize 720ms ease-in-out infinite alternate;
+      }
+
+      .music-playing .music-eq span:nth-child(2) {
+        animation-delay: 120ms;
+      }
+
+      .music-playing .music-eq span:nth-child(3) {
+        animation-delay: 240ms;
+      }
+
+      @keyframes equalize {
+        from {
+          height: 5px;
+          opacity: 0.45;
+        }
+        to {
+          height: 16px;
+          opacity: 1;
+        }
+      }
+
+      .music-playing {
+        animation: musicPulse 1.8s ease-in-out infinite;
+      }
+
+      @keyframes musicPulse {
+        50% {
+          box-shadow:
+            0 0 42px rgba(236, 72, 153, 0.34),
+            inset 0 1px 1px rgba(255, 255, 255, 0.18);
+        }
+      }
+
+      .timeline-line {
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(236, 72, 153, 0.58),
+          rgba(168, 85, 247, 0.48),
+          transparent
+        );
+        box-shadow: 0 0 28px rgba(217, 70, 239, 0.38);
+      }
+
+      .surprise-glow {
+        animation: surpriseGlow 1.8s ease-in-out infinite alternate;
+      }
+
+      @keyframes surpriseGlow {
+        from {
+          box-shadow: 0 0 20px rgba(236, 72, 153, 0.24);
+        }
+        to {
+          box-shadow:
+            0 0 42px rgba(236, 72, 153, 0.52),
+            0 0 90px rgba(168, 85, 247, 0.24);
+        }
+      }
+
+      .surprise-flash {
+        animation: screenGlow 900ms ease-out;
+      }
+
+      @keyframes screenGlow {
+        35% {
+          filter: brightness(1.25) saturate(1.18);
+        }
+      }
+
+      .confetti-piece,
+      .floating-heart {
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+      }
+
+      .confetti-piece {
+        width: 7px;
+        height: 14px;
+        border-radius: 3px;
+        background: var(--color);
+        animation: confettiBurst 1.8s cubic-bezier(0.18, 0.84, 0.28, 1) forwards;
+      }
+
+      .floating-heart {
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow:
+          0 0 16px rgba(236, 72, 153, 0.9),
+          0 0 34px rgba(168, 85, 247, 0.45);
+        animation: heartFloat 2.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      @keyframes confettiBurst {
+        to {
+          opacity: 0;
+          transform:
+            translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+            rotate(var(--rotation));
+        }
+      }
+
+      @keyframes heartFloat {
+        to {
+          opacity: 0;
+          transform:
+            translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+            scale(1.8);
+        }
+      }
+
+      .custom-cursor,
+      .cursor-particle {
+        position: fixed;
+        left: 0;
+        top: 0;
+        border-radius: 9999px;
+        pointer-events: none;
+        z-index: 120;
+      }
+
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow:
+          0 0 20px rgba(236, 72, 153, 0.86),
+          0 0 48px rgba(168, 85, 247, 0.6);
+        mix-blend-mode: screen;
+        transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0)
+          scale(var(--cursor-scale, 1));
+      }
+
+      .cursor-particle {
+        width: 6px;
+        height: 6px;
+        margin: -3px 0 0 -3px;
+        background: rgba(236, 72, 153, 0.62);
+        box-shadow: 0 0 18px rgba(168, 85, 247, 0.7);
+        opacity: var(--particle-opacity, 0);
+        transform: translate3d(var(--particle-x, -100px), var(--particle-y, -100px), 0);
+      }
+
+      @media (pointer: coarse) {
+        .custom-cursor,
+        .cursor-particle {
+          display: none;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .romantic-cosmos::after {
+          inset: -10%;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { motion } = window.Motion;
+
+      const entrance = (delay = 0) => ({
+        initial: { filter: "blur(10px)", opacity: 0, y: 20 },
+        whileInView: { filter: "blur(0px)", opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.7, ease: "easeOut", delay },
+      });
+
+      const cinematicEase = (t) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const smoothScrollTo = (targetId) => {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        const startY = window.scrollY;
+        const targetY = target.getBoundingClientRect().top + window.scrollY;
+        const distance = targetY - startY;
+        const duration = Math.min(1500, Math.max(800, Math.abs(distance) * 0.7));
+        const startedAt = performance.now();
+
+        const step = (now) => {
+          const progress = Math.min((now - startedAt) / duration, 1);
+          window.scrollTo(0, startY + distance * cinematicEase(progress));
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          }
+        };
+
+        requestAnimationFrame(step);
+      };
+
+      const moveReactiveCard = (event) => {
+        const card = event.currentTarget;
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        card.style.setProperty("--tilt-x", `${x * 7}deg`);
+        card.style.setProperty("--tilt-y", `${y * -7}deg`);
+      };
+
+      const resetReactiveCard = (event) => {
+        const card = event.currentTarget;
+        card.style.setProperty("--tilt-x", "0deg");
+        card.style.setProperty("--tilt-y", "0deg");
+      };
+
+      window.motion = motion;
+      window.entrance = entrance;
+      window.smoothScrollTo = smoothScrollTo;
+      window.moveReactiveCard = moveReactiveCard;
+      window.resetReactiveCard = resetReactiveCard;
+    </script>
+
+    <script type="text/babel">
+      const ArrowUpRight = ({ className = "h-6 w-6" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M7 17L17 7" />
+          <path d="M7 7h10v10" />
+        </svg>
+      );
+
+      const PlayIcon = ({ className = "h-6 w-6" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={className}
+          aria-hidden="true"
+        >
+          <polygon points="6 4 20 12 6 20 6 4" />
+        </svg>
+      );
+
+      const ClockIcon = ({ className = "h-7 w-7" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3.5 2" />
+        </svg>
+      );
+
+      const GlobeIcon = ({ className = "h-7 w-7" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18" />
+          <path d="M12 3c2.25 2.45 3.35 5.45 3.35 9S14.25 18.55 12 21" />
+          <path d="M12 3C9.75 5.45 8.65 8.45 8.65 12S9.75 18.55 12 21" />
+        </svg>
+      );
+
+      const MaterialIcon = ({ path }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="h-6 w-6 text-white"
+          aria-hidden="true"
+        >
+          <path d={path} />
+        </svg>
+      );
+
+      const MenuIcon = ({ className = "h-5 w-5" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M4 7h16" />
+          <path d="M4 12h16" />
+          <path d="M4 17h16" />
+        </svg>
+      );
+
+      const XIcon = ({ className = "h-5 w-5" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12" />
+          <path d="M18 6L6 18" />
+        </svg>
+      );
+
+      const ChevronLeft = ({ className = "h-5 w-5" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      );
+
+      const ChevronRight = ({ className = "h-5 w-5" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      );
+
+      const PauseIcon = ({ className = "h-4 w-4" }) => (
+        <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+          <path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z" />
+        </svg>
+      );
+
+      const MusicIcon = ({ className = "h-4 w-4" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M9 18V5l11-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="17" cy="16" r="3" />
+        </svg>
+      );
+
+      const HeartIcon = ({ className = "h-5 w-5" }) => (
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={className}
+          aria-hidden="true"
+        >
+          <path d="M12 21s-7.2-4.35-9.4-8.58C.82 8.98 2.78 5 6.55 5c2.08 0 3.43 1.17 4.2 2.25C11.52 6.17 12.87 5 14.95 5c3.77 0 5.73 3.98 3.95 7.42C16.7 16.65 12 21 12 21Z" />
+        </svg>
+      );
+
+      window.ArrowUpRight = ArrowUpRight;
+      window.PlayIcon = PlayIcon;
+      window.ClockIcon = ClockIcon;
+      window.GlobeIcon = GlobeIcon;
+      window.MaterialIcon = MaterialIcon;
+      window.MenuIcon = MenuIcon;
+      window.XIcon = XIcon;
+      window.ChevronLeft = ChevronLeft;
+      window.ChevronRight = ChevronRight;
+      window.PauseIcon = PauseIcon;
+      window.MusicIcon = MusicIcon;
+      window.HeartIcon = HeartIcon;
+    </script>
+
+    <script type="text/babel">
+      const FADE_MS = 500;
+      const FADE_OUT_LEAD = 0.55;
+
+      const FadingVideo = ({ src, className = "", style = {} }) => {
+        const videoRef = React.useRef(null);
+        const rafRef = React.useRef(null);
+        const fadingOutRef = React.useRef(false);
+        const loopTimeoutRef = React.useRef(null);
+
+        const fadeTo = React.useCallback((target, duration = FADE_MS) => {
+          const video = videoRef.current;
+          if (!video) return;
+
+          if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+          }
+
+          const currentOpacity = parseFloat(video.style.opacity);
+          const startOpacity = Number.isFinite(currentOpacity)
+            ? currentOpacity
+            : 0;
+          const start = performance.now();
+
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const nextOpacity =
+              startOpacity + (target - startOpacity) * progress;
+
+            video.style.opacity = String(nextOpacity);
+
+            if (progress < 1) {
+              rafRef.current = requestAnimationFrame(step);
+            } else {
+              video.style.opacity = String(target);
+              rafRef.current = null;
+            }
+          };
+
+          rafRef.current = requestAnimationFrame(step);
+        }, []);
+
+        React.useEffect(() => {
+          const video = videoRef.current;
+          if (!video) return undefined;
+
+          const playVideo = () => {
+            const promise = video.play();
+            if (promise && promise.catch) {
+              promise.catch(() => {});
+            }
+          };
+
+          const handleLoadedData = () => {
+            video.style.opacity = "0";
+            fadingOutRef.current = false;
+            playVideo();
+            fadeTo(1);
+          };
+
+          const handleTimeUpdate = () => {
+            if (!Number.isFinite(video.duration)) return;
+
+            const remaining = video.duration - video.currentTime;
+            if (
+              !fadingOutRef.current &&
+              remaining <= FADE_OUT_LEAD &&
+              remaining > 0
+            ) {
+              fadingOutRef.current = true;
+              fadeTo(0);
+            }
+          };
+
+          const handleEnded = () => {
+            video.style.opacity = "0";
+
+            if (loopTimeoutRef.current) {
+              clearTimeout(loopTimeoutRef.current);
+            }
+
+            loopTimeoutRef.current = setTimeout(() => {
+              video.currentTime = 0;
+              playVideo();
+              fadingOutRef.current = false;
+              fadeTo(1);
+            }, 100);
+          };
+
+          video.addEventListener("loadeddata", handleLoadedData);
+          video.addEventListener("timeupdate", handleTimeUpdate);
+          video.addEventListener("ended", handleEnded);
+
+          if (video.readyState >= 2) {
+            handleLoadedData();
+          }
+
+          return () => {
+            if (rafRef.current) {
+              cancelAnimationFrame(rafRef.current);
+            }
+
+            if (loopTimeoutRef.current) {
+              clearTimeout(loopTimeoutRef.current);
+            }
+
+            video.removeEventListener("loadeddata", handleLoadedData);
+            video.removeEventListener("timeupdate", handleTimeUpdate);
+            video.removeEventListener("ended", handleEnded);
+          };
+        }, [src, fadeTo]);
+
+        return (
+          <video
+            ref={videoRef}
+            src={src}
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            className={`fading-video ${className}`}
+            style={{ ...style, opacity: 0 }}
+          />
+        );
+      };
+
+      window.FadingVideo = FadingVideo;
+    </script>
+
+    <script type="text/babel">
+      const BlurText = ({ text, className = "" }) => {
+        const rootRef = React.useRef(null);
+        const [visible, setVisible] = React.useState(false);
+        const words = text.split(" ");
+
+        React.useEffect(() => {
+          const node = rootRef.current;
+          if (!node) return undefined;
+
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                setVisible(true);
+                observer.disconnect();
+              }
+            },
+            { threshold: 0.1 }
+          );
+
+          observer.observe(node);
+
+          return () => observer.disconnect();
+        }, []);
+
+        return (
+          <p
+            ref={rootRef}
+            className={`${className} flex flex-wrap`}
+            style={{ justifyContent: "center", rowGap: "0.1em" }}
+          >
+            {words.map((word, index) => (
+              <motion.span
+                key={`${word}-${index}`}
+                initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+                animate={
+                  visible
+                    ? {
+                        filter: ["blur(10px)", "blur(5px)", "blur(0px)"],
+                        opacity: [0, 0.5, 1],
+                        y: [50, -5, 0],
+                      }
+                    : undefined
+                }
+                transition={{
+                  duration: 0.7,
+                  times: [0, 0.5, 1],
+                  ease: "easeOut",
+                  delay: (index * 100) / 1000,
+                }}
+                style={{ display: "inline-block", marginRight: "0.28em" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </p>
+        );
+      };
+
+      window.BlurText = BlurText;
+    </script>
+
+    <script type="text/babel">
+      const Navbar = () => {
+        const [open, setOpen] = React.useState(false);
+        const links = [
+          { label: "Universe", target: "universe" },
+          { label: "Memories", target: "memories" },
+          { label: "Our Story", target: "our-story" },
+          { label: "Surprise", target: "surprise" },
+        ];
+
+        const handleNav = (target) => {
+          setOpen(false);
+          window.smoothScrollTo(target);
+        };
+
+        return (
+          <nav className="fixed left-0 right-0 top-4 z-50 px-8 lg:px-16">
+            <div className="flex items-center justify-between">
+              <a
+                href="#universe"
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleNav("universe");
+                }}
+                className="liquid-glass flex h-12 w-12 items-center justify-center rounded-full text-white"
+                aria-label="Love story home"
+              >
+                <span className="font-heading text-3xl italic leading-none">
+                  a
+                </span>
+              </a>
+
+              <div className="liquid-glass hidden items-center rounded-full px-1.5 py-1.5 lg:flex">
+                {links.map((link) => (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={() => handleNav(link.target)}
+                    className="px-3 py-2 font-body text-sm font-medium text-white/90"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={() => handleNav("memories")}
+                  className="ml-1 flex items-center gap-2 rounded-full bg-white px-4 py-2 font-body text-sm font-semibold text-black whitespace-nowrap"
+                >
+                  Begin Our Journey
+                  <ArrowUpRight className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="hidden h-12 w-12 lg:block" aria-hidden="true" />
+
+              <button
+                type="button"
+                onClick={() => setOpen((current) => !current)}
+                className="liquid-glass flex h-12 w-12 items-center justify-center rounded-full text-white lg:hidden"
+                aria-label="Open navigation"
+              >
+                {open ? <XIcon /> : <MenuIcon />}
+              </button>
+            </div>
+
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, filter: "blur(10px)", y: -8 }}
+                animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="liquid-glass mt-3 flex flex-col rounded-[1.25rem] p-2 lg:hidden"
+              >
+                {links.map((link) => (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={() => handleNav(link.target)}
+                    className="rounded-full px-4 py-3 text-left font-body text-sm font-medium text-white/90"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => handleNav("memories")}
+                  className="mt-1 flex items-center justify-between rounded-full bg-white px-4 py-3 font-body text-sm font-semibold text-black"
+                >
+                  Begin Our Journey
+                  <ArrowUpRight className="h-4 w-4" />
+                </button>
+              </motion.div>
+            )}
+          </nav>
+        );
+      };
+
+      window.Navbar = Navbar;
+    </script>
+
+    <script type="text/babel">
+      const HERO_VIDEO =
+        "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4";
+
+      const StatCard = ({ icon, value, label }) => (
+        <div className="liquid-glass stat-card-muted flex w-[220px] flex-col rounded-[1.25rem] p-5 text-left">
+          <div className="cinematic-text-soft">{icon}</div>
+          <div className="cinematic-text mt-8 font-heading text-4xl italic leading-none">
+            {value}
+          </div>
+          <div className="cinematic-text-soft mt-2 font-body text-xs font-medium">
+            {label}
+          </div>
+        </div>
+      );
+
+      const Hero = () => (
+        <section id="universe" className="romantic-cosmos relative min-h-screen overflow-hidden bg-black">
+          <FadingVideo
+            src={HERO_VIDEO}
+            className="absolute left-1/2 top-0 z-0 object-cover object-top -translate-x-1/2"
+            style={{ width: "120%", height: "120%" }}
+          />
+
+          <div className="relative z-10 flex min-h-screen flex-col">
+            <Navbar />
+
+            <div className="flex flex-1 flex-col items-center justify-center px-4 pt-24 text-center">
+              <BlurText
+                text={"Across Every Universe, I\u2019d Still Find You"}
+                className="cinematic-text mt-6 max-w-2xl justify-center font-heading text-5xl italic leading-[0.88] md:text-6xl lg:text-7xl"
+              />
+
+              <motion.p
+                {...entrance(0.8)}
+                className="cinematic-text-soft mt-4 max-w-2xl font-body text-sm font-medium leading-tight md:text-base"
+              >
+                Somehow, across billions of stars and infinite timelines, I
+                found home in you. Every laugh, every memory, and every moment
+                with you became its own constellation.
+              </motion.p>
+
+              <motion.div
+                {...entrance(1.1)}
+                className="mt-6 flex flex-wrap items-center justify-center gap-6"
+              >
+                <button
+                  type="button"
+                  onClick={() => window.smoothScrollTo("memories")}
+                  className="liquid-glass-strong interactive-glow cinematic-text-soft flex items-center gap-2 rounded-full px-5 py-2.5 font-body text-sm font-semibold"
+                >
+                  Begin Our Journey
+                  <ArrowUpRight className="h-5 w-5" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => window.smoothScrollTo("our-story")}
+                  className="cinematic-text-soft flex items-center gap-2 font-body text-sm font-semibold"
+                >
+                  Watch Our Story
+                  <PlayIcon className="h-4 w-4" />
+                </button>
+              </motion.div>
+
+              <motion.div
+                {...entrance(1.3)}
+                className="mt-8 flex flex-wrap items-stretch justify-center gap-4"
+              >
+                <StatCard
+                  icon={<ClockIcon />}
+                  value="891 Days"
+                  label="Since 16 Dec 2023"
+                />
+                <StatCard
+                  icon={<GlobeIcon />}
+                  value="Infinite"
+                  label="Reasons I Love You"
+                />
+              </motion.div>
+            </div>
+
+            <motion.div
+              {...entrance(1.4)}
+              className="flex flex-col items-center gap-4 px-4 pb-8"
+            >
+              <div className="liquid-glass cinematic-text-soft rounded-full px-3.5 py-1 font-body text-xs font-semibold">
+                Built from memories written across the universe
+              </div>
+              <div className="cinematic-text flex flex-wrap items-center justify-center gap-12 font-heading text-2xl italic md:gap-16 md:text-3xl">
+                {["Love", "Stars", "Chaos", "Us", "Forever"].map((partner) => (
+                  <span key={partner}>{partner}</span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      );
+
+      window.Hero = Hero;
+    </script>
+
+    <script type="text/babel">
+      const galleryImages = [
+        {
+          src: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=900&q=80",
+          caption: "The kind of quiet that feels like home.",
+          span: "md:col-span-2 md:row-span-2",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80",
+          caption: "Little moments, impossible to forget.",
+          span: "md:row-span-2",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=900&q=80",
+          caption: "Every sky started looking softer after you.",
+          span: "",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+          caption: "A universe made from ordinary magic.",
+          span: "",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80",
+          caption: "The future, glowing quietly in the distance.",
+          span: "md:col-span-2",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=900&q=80",
+          caption: "Proof that time can hold its breath.",
+          span: "",
+        },
+      ];
+
+      const MemoriesGallery = () => {
+        const [activeIndex, setActiveIndex] = React.useState(null);
+        const activeImage = activeIndex === null ? null : galleryImages[activeIndex];
+
+        React.useEffect(() => {
+          const handleKeyDown = (event) => {
+            if (activeIndex === null) return;
+            if (event.key === "Escape") setActiveIndex(null);
+            if (event.key === "ArrowRight") {
+              setActiveIndex((current) => (current + 1) % galleryImages.length);
+            }
+            if (event.key === "ArrowLeft") {
+              setActiveIndex(
+                (current) => (current - 1 + galleryImages.length) % galleryImages.length
+              );
+            }
+          };
+
+          document.addEventListener("keydown", handleKeyDown);
+          document.body.style.overflow = activeIndex === null ? "" : "hidden";
+
+          return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = "";
+          };
+        }, [activeIndex]);
+
+        const showPrevious = () => {
+          setActiveIndex(
+            (current) => (current - 1 + galleryImages.length) % galleryImages.length
+          );
+        };
+
+        const showNext = () => {
+          setActiveIndex((current) => (current + 1) % galleryImages.length);
+        };
+
+        return (
+          <section
+            id="memories"
+            className="romantic-cosmos section-fade-bottom relative min-h-screen overflow-hidden bg-black px-6 py-24 md:px-16 lg:px-20"
+          >
+            <div className="cosmic-stars">
+              {Array.from({ length: 34 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="cosmic-star"
+                  style={{
+                    left: `${(index * 29) % 100}%`,
+                    top: `${(index * 47) % 100}%`,
+                    "--duration": `${7 + (index % 7)}s`,
+                    "--opacity": 0.32 + (index % 5) * 0.12,
+                    "--drift-x": `${(index % 2 ? 1 : -1) * (14 + index)}px`,
+                    "--drift-y": `${-18 - (index % 6) * 7}px`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="relative z-10 mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+              <motion.div {...entrance(0)} className="max-w-3xl">
+                <div className="mb-5 font-body text-sm text-white/80">
+                  // Memories
+                </div>
+                <h2 className="font-heading text-5xl italic leading-[0.9] text-white md:text-7xl lg:text-[5.5rem]">
+                  Fragments From Our Universe
+                </h2>
+                <p className="mt-4 max-w-xl font-body text-sm font-light leading-tight text-white/85 md:text-base">
+                  Every memory with you became something timeless.
+                </p>
+              </motion.div>
+
+              <div className="mt-10 grid auto-rows-[150px] grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:auto-rows-[140px]">
+                {galleryImages.map((item, index) => (
+                  <motion.button
+                    key={item.src}
+                    type="button"
+                    {...entrance(0.08 * index)}
+                    whileHover={{ scale: 1.025 }}
+                    onMouseMove={window.moveReactiveCard}
+                    onMouseLeave={window.resetReactiveCard}
+                    onClick={() => setActiveIndex(index)}
+                    className={`liquid-glass reactive-card interactive-glow group relative min-h-[150px] overflow-hidden rounded-[1.25rem] text-left ${item.span}`}
+                  >
+                    <img
+                      src={item.src}
+                      alt={item.caption}
+                      className="h-full w-full object-cover opacity-85 blur-[1.5px] transition duration-500 group-hover:opacity-100 group-hover:blur-0"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <div className="liquid-glass inline-flex rounded-full px-3 py-1 font-body text-xs text-white">
+                        Memory {String(index + 1).padStart(2, "0")}
+                      </div>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+
+            {activeImage && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[80] flex items-center justify-center bg-black/78 px-4 backdrop-blur-2xl"
+                onClick={() => setActiveIndex(null)}
+              >
+                <motion.div
+                  initial={{ opacity: 0, filter: "blur(18px)", y: 18, scale: 0.96 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", y: 0, scale: 1 }}
+                  transition={{ duration: 0.55, ease: "easeOut" }}
+                  className="relative w-full max-w-5xl"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveIndex(null)}
+                    className="liquid-glass absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full text-white"
+                    aria-label="Close memory"
+                  >
+                    <XIcon />
+                  </button>
+
+                  <div className="liquid-glass overflow-hidden rounded-[1.25rem] p-2">
+                    <img
+                      src={activeImage.src}
+                      alt={activeImage.caption}
+                      className="max-h-[72vh] w-full rounded-[1rem] object-cover"
+                    />
+                    <div className="flex items-center justify-between gap-4 px-4 py-4">
+                      <p className="font-body text-sm font-light text-white/90">
+                        {activeImage.caption}
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={showPrevious}
+                          className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full text-white"
+                          aria-label="Previous memory"
+                        >
+                          <ChevronLeft />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={showNext}
+                          className="liquid-glass flex h-10 w-10 items-center justify-center rounded-full text-white"
+                          aria-label="Next memory"
+                        >
+                          <ChevronRight />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </section>
+        );
+      };
+
+      window.MemoriesGallery = MemoriesGallery;
+    </script>
+
+    <script type="text/babel">
+      const timelineEntries = [
+        {
+          title: "The First Message",
+          date: "Day 1",
+          body: "A simple notification that somehow opened an entire universe.",
+        },
+        {
+          title: "First Call",
+          date: "The night everything softened",
+          body: "Your voice made the distance feel smaller and the world feel kinder.",
+        },
+        {
+          title: "First Photo Together",
+          date: "A frame I keep replaying",
+          body: "One still image, but it holds a thousand feelings.",
+        },
+        {
+          title: "The Day I Fell For You",
+          date: "Quietly, completely",
+          body: "It did not arrive loudly. It settled in like starlight.",
+        },
+        {
+          title: "Favorite Memory",
+          date: "Always changing",
+          body: "Every new moment with you keeps becoming my favorite one.",
+        },
+        {
+          title: "Today",
+          date: "Your birthday",
+          body: "A whole universe pausing to celebrate you.",
+        },
+      ];
+
+      const Timeline = () => (
+        <section
+          id="moments"
+          className="romantic-cosmos relative min-h-screen overflow-hidden bg-black px-6 py-24 md:px-16 lg:px-20"
+        >
+          <div className="cosmic-stars">
+            {Array.from({ length: 42 }).map((_, index) => (
+              <span
+                key={index}
+                className="cosmic-star"
+                style={{
+                  left: `${(index * 17) % 100}%`,
+                  top: `${(index * 41) % 100}%`,
+                  "--duration": `${8 + (index % 8)}s`,
+                  "--opacity": 0.25 + (index % 6) * 0.1,
+                  "--drift-x": `${(index % 2 ? -1 : 1) * (12 + index)}px`,
+                  "--drift-y": `${-14 - (index % 5) * 9}px`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-6xl">
+            <motion.div {...entrance(0)} className="mb-16">
+              <div className="mb-5 font-body text-sm text-white/80">
+                // Moments
+              </div>
+              <h2 className="font-heading text-5xl italic leading-[0.9] text-white md:text-7xl lg:text-[5.5rem]">
+                A timeline
+                <br />
+                made of starlight
+              </h2>
+            </motion.div>
+
+            <div className="relative">
+              <div className="timeline-line absolute left-4 top-0 h-full w-px md:left-1/2" />
+              {timelineEntries.map((entry, index) => (
+                <div
+                  key={entry.title}
+                  className={`relative mb-8 flex pl-10 md:pl-0 ${
+                    index % 2 === 0 ? "md:justify-start" : "md:justify-end"
+                  }`}
+                >
+                  <span className="liquid-glass absolute left-1 top-7 h-7 w-7 rounded-full md:left-1/2 md:-translate-x-1/2" />
+                  <motion.article
+                    {...entrance(0.1 * index)}
+                    onMouseMove={window.moveReactiveCard}
+                    onMouseLeave={window.resetReactiveCard}
+                    className="liquid-glass reactive-card interactive-glow w-full rounded-[1.25rem] p-6 md:w-[44%]"
+                  >
+                    <div className="font-body text-xs uppercase tracking-[0.2em] text-white/60">
+                      {entry.date}
+                    </div>
+                    <h3 className="mt-4 font-heading text-3xl italic leading-none text-white md:text-4xl">
+                      {entry.title}
+                    </h3>
+                    <p className="mt-3 max-w-[34ch] font-body text-sm font-light leading-snug text-white/85">
+                      {entry.body}
+                    </p>
+                  </motion.article>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      window.Timeline = Timeline;
+    </script>
+
+    <script type="text/babel">
+      const letterLines = [
+        "Happiest Birthday to the girl who turned my universe into something beautiful.",
+        "You made ordinary days feel cinematic, soft, and full of light.",
+        "I hope today reminds you how deeply you are loved, chosen, and celebrated.",
+        "Across every version of forever, I would still find my way back to you.",
+      ];
+
+      const TypewriterLetter = () => {
+        const [started, setStarted] = React.useState(false);
+        const [lineIndex, setLineIndex] = React.useState(0);
+        const [charIndex, setCharIndex] = React.useState(0);
+        const ref = React.useRef(null);
+
+        React.useEffect(() => {
+          const node = ref.current;
+          if (!node) return undefined;
+
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                setStarted(true);
+                observer.disconnect();
+              }
+            },
+            { threshold: 0.35 }
+          );
+
+          observer.observe(node);
+          return () => observer.disconnect();
+        }, []);
+
+        React.useEffect(() => {
+          if (!started || lineIndex >= letterLines.length) return undefined;
+
+          const currentLine = letterLines[lineIndex];
+          const timer = setTimeout(() => {
+            if (charIndex < currentLine.length) {
+              setCharIndex((current) => current + 1);
+            } else {
+              setTimeout(() => {
+                setLineIndex((current) => current + 1);
+                setCharIndex(0);
+              }, 420);
+            }
+          }, charIndex === 0 ? 220 : 34);
+
+          return () => clearTimeout(timer);
+        }, [started, lineIndex, charIndex]);
+
+        return (
+          <div ref={ref} className="min-h-[15rem] font-body text-base font-light leading-relaxed text-white/90 md:text-lg">
+            {letterLines.map((line, index) => {
+              const visible =
+                index < lineIndex
+                  ? line
+                  : index === lineIndex
+                    ? line.slice(0, charIndex)
+                    : "";
+
+              return (
+                <p key={line} className="mb-4">
+                  {visible}
+                  {index === lineIndex && lineIndex < letterLines.length && (
+                    <span className="typewriter-cursor" />
+                  )}
+                </p>
+              );
+            })}
+          </div>
+        );
+      };
+
+      const LoveLetter = () => (
+        <section
+          id="our-story"
+          className="romantic-cosmos relative flex min-h-screen items-center overflow-hidden bg-black px-6 py-24 md:px-16 lg:px-20"
+        >
+          <div className="cosmic-stars">
+            {Array.from({ length: 36 }).map((_, index) => (
+              <span
+                key={index}
+                className="cosmic-star"
+                style={{
+                  left: `${(index * 23) % 100}%`,
+                  top: `${(index * 31) % 100}%`,
+                  "--duration": `${9 + (index % 6)}s`,
+                  "--opacity": 0.28 + (index % 5) * 0.12,
+                  "--drift-x": `${(index % 2 ? 1 : -1) * (10 + index)}px`,
+                  "--drift-y": `${-16 - (index % 5) * 8}px`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[0.9fr_1.1fr]">
+            <motion.div {...entrance(0)}>
+              <div className="mb-5 font-body text-sm text-white/80">
+                // Our Story
+              </div>
+              <h2 className="font-heading text-5xl italic leading-[0.9] text-white md:text-7xl lg:text-[5.5rem]">
+                A letter
+                <br />
+                from my universe
+              </h2>
+            </motion.div>
+
+            <motion.div
+              {...entrance(0.25)}
+              onMouseMove={window.moveReactiveCard}
+              onMouseLeave={window.resetReactiveCard}
+              className="liquid-glass reactive-card interactive-glow rounded-[1.25rem] p-6 md:p-8"
+            >
+              <TypewriterLetter />
+            </motion.div>
+          </div>
+        </section>
+      );
+
+      window.LoveLetter = LoveLetter;
+    </script>
+
+    <script type="text/babel">
+      const FinalSurprise = () => {
+        const [revealed, setRevealed] = React.useState(false);
+        const [burst, setBurst] = React.useState([]);
+        const [flashing, setFlashing] = React.useState(false);
+
+        const launchSurprise = () => {
+          setRevealed(true);
+          setFlashing(true);
+
+          const colors = [
+            "rgba(255,255,255,0.95)",
+            "rgba(236,72,153,0.9)",
+            "rgba(168,85,247,0.9)",
+            "rgba(217,70,239,0.88)",
+          ];
+
+          const particles = Array.from({ length: 44 }).map((_, index) => ({
+            id: `${Date.now()}-${index}`,
+            type: index % 3 === 0 ? "heart" : "confetti",
+            x: `${48 + (index % 5) * 2}%`,
+            y: "58%",
+            dx: `${Math.cos(index * 0.72) * (90 + (index % 6) * 22)}px`,
+            dy: `${Math.sin(index * 0.72) * (80 + (index % 8) * 18) - 120}px`,
+            color: colors[index % colors.length],
+            rotation: `${index * 37}deg`,
+          }));
+
+          setBurst(particles);
+          setTimeout(() => setFlashing(false), 950);
+          setTimeout(() => setBurst([]), 2400);
+        };
+
+        return (
+          <section
+            id="surprise"
+            className={`romantic-cosmos relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-6 py-24 text-center ${
+              flashing ? "surprise-flash" : ""
+            }`}
+          >
+            <div className="cosmic-stars">
+              {Array.from({ length: 64 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="cosmic-star"
+                  style={{
+                    left: `${(index * 13) % 100}%`,
+                    top: `${(index * 37) % 100}%`,
+                    "--duration": `${7 + (index % 9)}s`,
+                    "--opacity": 0.24 + (index % 7) * 0.1,
+                    "--drift-x": `${(index % 2 ? -1 : 1) * (14 + index)}px`,
+                    "--drift-y": `${-20 - (index % 7) * 8}px`,
+                  }}
+                />
+              ))}
+            </div>
+
+            {burst.map((particle) => (
+              <span
+                key={particle.id}
+                className={particle.type === "heart" ? "floating-heart" : "confetti-piece"}
+                style={{
+                  "--x": particle.x,
+                  "--y": particle.y,
+                  "--dx": particle.dx,
+                  "--dy": particle.dy,
+                  "--color": particle.color,
+                  "--rotation": particle.rotation,
+                }}
+              >
+                {particle.type === "heart" ? "\u2665" : ""}
+              </span>
+            ))}
+
+            <div className="relative z-10 flex max-w-4xl flex-col items-center">
+              <BlurText
+                text="You Were Always My Favorite Universe"
+                className="max-w-3xl justify-center font-heading text-5xl italic leading-[0.88] text-white md:text-7xl lg:text-[5.5rem]"
+              />
+
+              <motion.button
+                {...entrance(0.9)}
+                type="button"
+                onClick={launchSurprise}
+                className="liquid-glass-strong surprise-glow mt-10 flex items-center gap-3 rounded-full px-6 py-3 font-body text-sm font-medium text-white"
+              >
+                <HeartIcon />
+                Open the surprise
+              </motion.button>
+
+              {revealed && (
+                <motion.div
+                  initial={{ opacity: 0, filter: "blur(18px)", y: 24 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  className="liquid-glass mt-8 max-w-2xl rounded-[1.25rem] p-6"
+                >
+                  <p className="font-body text-base font-light leading-relaxed text-white/90 md:text-lg">
+                    Today is yours, but somehow I feel like the lucky one. Thank
+                    you for being my calm, my chaos, my favorite place, and the
+                    most beautiful universe I have ever known.
+                  </p>
+                </motion.div>
+              )}
+            </div>
+          </section>
+        );
+      };
+
+      window.FinalSurprise = FinalSurprise;
+    </script>
+
+    <script type="text/babel">
+      const CAPABILITIES_VIDEO =
+        "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4";
+
+      const capabilities = [
+        {
+          title: "The First Spark",
+          body:
+            "The moment everything changed. One conversation became my favorite chapter.",
+          icon:
+            "M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21H5Zm1-4h12l-3.75-5-3 4L9 13l-3 4Z",
+          tags: ["First Smile", "Butterflies", "Endless Thoughts", "Cosmic Timing"],
+        },
+        {
+          title: "Late Night Universes",
+          body:
+            "Hours disappeared in conversations that somehow made life softer, lighter, and happier.",
+          icon:
+            "M4 6.47 5.76 10H20v8H4V6.47M22 4h-4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.89-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4Z",
+          tags: ["Midnight Calls", "Voice Notes", "Shared Dreams", "Safe Place"],
+        },
+        {
+          title: "Forever Energy",
+          body:
+            "You made ordinary moments feel cinematic. Every version of the future feels brighter with you in it.",
+          icon:
+            "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1Zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7Z",
+          tags: ["Future Plans", "Favorite Person", "Parallel Souls", "Infinite Love"],
+        },
+      ];
+
+      const CapabilityCard = ({ item, index }) => (
+        <motion.article
+          {...entrance(0.18 * index)}
+          onMouseMove={window.moveReactiveCard}
+          onMouseLeave={window.resetReactiveCard}
+          className="liquid-glass reactive-card interactive-glow flex min-h-[360px] flex-col rounded-[1.25rem] p-6"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="liquid-glass flex h-11 w-11 shrink-0 items-center justify-center rounded-[0.75rem]">
+              <MaterialIcon path={item.icon} />
+            </div>
+
+            <div className="flex max-w-[70%] flex-wrap justify-end gap-1.5">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="liquid-glass rounded-full px-3 py-1 font-body text-[11px] text-white/90 whitespace-nowrap"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-1" />
+
+          <div className="mt-6">
+            <h3 className="font-heading text-3xl italic leading-none text-white md:text-4xl">
+              {item.title}
+            </h3>
+            <p className="mt-3 max-w-[32ch] font-body text-sm font-light leading-snug text-white/90">
+              {item.body}
+            </p>
+          </div>
+        </motion.article>
+      );
+
+      const Capabilities = () => (
+        <section className="romantic-cosmos section-fade-top relative -mt-24 min-h-screen overflow-hidden bg-black pt-24">
+          <FadingVideo
+            src={CAPABILITIES_VIDEO}
+            className="absolute inset-0 z-0 h-full w-full object-cover"
+          />
+
+          <div className="relative z-10 flex min-h-screen flex-col px-8 pb-10 pt-24 md:px-16 lg:px-20">
+            <motion.header {...entrance(0)} className="mb-auto">
+              <div className="mb-6 font-body text-sm text-white/80">
+                // Our Universe
+              </div>
+              <h2 className="font-heading text-6xl italic leading-[0.9] text-white md:text-7xl lg:text-[6rem]">
+                Our Story
+                <br />
+                written in stars
+              </h2>
+            </motion.header>
+
+            <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+              {capabilities.map((item, index) => (
+                <CapabilityCard
+                  key={item.title}
+                  item={item}
+                  index={index + 1}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+
+      window.Capabilities = Capabilities;
+    </script>
+
+    <script type="text/babel">
+      const LoadingScreen = () => {
+        const [progress, setProgress] = React.useState(0);
+        const [hidden, setHidden] = React.useState(false);
+
+        React.useEffect(() => {
+          let frameId;
+          const startedAt = performance.now();
+
+          const step = (now) => {
+            const nextProgress = Math.min(100, Math.round(((now - startedAt) / 1800) * 100));
+            setProgress(nextProgress);
+
+            if (nextProgress < 100) {
+              frameId = requestAnimationFrame(step);
+            } else {
+              setTimeout(() => setHidden(true), 520);
+            }
+          };
+
+          frameId = requestAnimationFrame(step);
+          return () => cancelAnimationFrame(frameId);
+        }, []);
+
+        if (hidden) return null;
+
+        return (
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: progress >= 100 ? 0 : 1 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className={`loader-screen fixed inset-0 z-[110] flex items-center justify-center overflow-hidden ${
+              progress >= 100 ? "is-hidden" : ""
+            }`}
+          >
+            <div className="cosmic-stars">
+              {Array.from({ length: 48 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="cosmic-star"
+                  style={{
+                    left: `${(index * 19) % 100}%`,
+                    top: `${(index * 43) % 100}%`,
+                    "--duration": `${6 + (index % 8)}s`,
+                    "--opacity": 0.28 + (index % 7) * 0.09,
+                    "--drift-x": `${(index % 2 ? 1 : -1) * (10 + index)}px`,
+                    "--drift-y": `${-12 - (index % 6) * 6}px`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="relative z-10 text-center">
+              <div className="font-heading text-5xl italic leading-none text-white md:text-7xl">
+                Building Your Universe...
+              </div>
+              <div className="mx-auto mt-8 h-px w-56 overflow-hidden rounded-full bg-white/15">
+                <div
+                  className="h-full rounded-full bg-white"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <div className="mt-4 font-body text-xs tracking-[0.32em] text-white/70">
+                {String(progress).padStart(2, "0")}%
+              </div>
+            </div>
+          </motion.div>
+        );
+      };
+
+      const MUSIC_SRC =
+        "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=romantic-piano-ambient-110624.mp3";
+
+      const MusicPlayer = () => {
+        const audioRef = React.useRef(null);
+        const [playing, setPlaying] = React.useState(false);
+        const [enabled, setEnabled] = React.useState(false);
+
+        const toggleMusic = () => {
+          const audio = audioRef.current;
+          if (!audio) return;
+
+          if (!enabled) {
+            setEnabled(true);
+            audio.muted = false;
+            audio.volume = 0.42;
+          }
+
+          if (playing) {
+            audio.pause();
+            setPlaying(false);
+            return;
+          }
+
+          audio.muted = false;
+          audio
+            .play()
+            .then(() => setPlaying(true))
+            .catch(() => setPlaying(false));
+        };
+
+        return (
+          <>
+            <audio ref={audioRef} src={MUSIC_SRC} loop preload="auto" muted />
+            <button
+              type="button"
+              onClick={toggleMusic}
+              className={`liquid-glass fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-full px-4 py-3 font-body text-sm font-medium text-white ${
+                playing ? "music-playing" : ""
+              }`}
+              aria-label={playing ? "Pause music" : "Play music"}
+            >
+              {playing ? <PauseIcon /> : <MusicIcon />}
+              <span className="music-eq" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+            </button>
+          </>
+        );
+      };
+
+      const CustomCursor = () => {
+        const cursorRef = React.useRef(null);
+        const particleRefs = React.useRef([]);
+        const targetRef = React.useRef({ x: -100, y: -100, scale: 1 });
+        const currentRef = React.useRef({ x: -100, y: -100, scale: 1 });
+        const trailRef = React.useRef(
+          Array.from({ length: 6 }).map(() => ({ x: -100, y: -100, opacity: 0 }))
+        );
+
+        React.useEffect(() => {
+          const handleMouseMove = (event) => {
+            targetRef.current.x = event.clientX;
+            targetRef.current.y = event.clientY;
+          };
+
+          const handlePointerOver = (event) => {
+            const closestInteractive = event.target.closest
+              ? event.target.closest(
+              "button, a, [role='button'], .interactive-glow"
+                )
+              : null;
+
+            targetRef.current.scale = closestInteractive
+              ? 1.9
+              : 1;
+          };
+
+          let frameId;
+          const animate = () => {
+            const target = targetRef.current;
+            const current = currentRef.current;
+            current.x += (target.x - current.x) * 0.18;
+            current.y += (target.y - current.y) * 0.18;
+            current.scale += (target.scale - current.scale) * 0.22;
+
+            if (cursorRef.current) {
+              cursorRef.current.style.setProperty("--cursor-x", `${current.x}px`);
+              cursorRef.current.style.setProperty("--cursor-y", `${current.y}px`);
+              cursorRef.current.style.setProperty("--cursor-scale", current.scale);
+            }
+
+            trailRef.current.forEach((point, index) => {
+              const follow = index === 0 ? current : trailRef.current[index - 1];
+              point.x += (follow.x - point.x) * (0.12 + index * 0.018);
+              point.y += (follow.y - point.y) * (0.12 + index * 0.018);
+              point.opacity = Math.max(0, 0.42 - index * 0.055);
+
+              const node = particleRefs.current[index];
+              if (node) {
+                node.style.setProperty("--particle-x", `${point.x}px`);
+                node.style.setProperty("--particle-y", `${point.y}px`);
+                node.style.setProperty("--particle-opacity", point.opacity);
+              }
+            });
+
+            frameId = requestAnimationFrame(animate);
+          };
+
+          window.addEventListener("mousemove", handleMouseMove);
+          window.addEventListener("pointerover", handlePointerOver);
+          frameId = requestAnimationFrame(animate);
+
+          return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("pointerover", handlePointerOver);
+            cancelAnimationFrame(frameId);
+          };
+        }, []);
+
+        return (
+          <>
+            <span ref={cursorRef} className="custom-cursor" />
+            {Array.from({ length: 6 }).map((_, index) => (
+              <span
+                key={index}
+                ref={(node) => {
+                  particleRefs.current[index] = node;
+                }}
+                className="cursor-particle"
+              />
+            ))}
+          </>
+        );
+      };
+
+      const PASSWORD_HASH = 639002021;
+
+      const hashPin = (value) =>
+        value.split("").reduce((total, char) => {
+          return (total * 31 + char.charCodeAt(0)) % 1000000007;
+        }, 7);
+
+      const PasswordGate = ({ onUnlock }) => {
+        const [pin, setPin] = React.useState("");
+        const [error, setError] = React.useState("");
+
+        const submitPin = (candidate = pin) => {
+          if (candidate.length !== 6) {
+            setError("Enter the six-star code.");
+            return;
+          }
+
+          if (hashPin(candidate) === PASSWORD_HASH) {
+            setError("");
+            onUnlock();
+            return;
+          }
+
+          setError("That universe is still locked.");
+          setPin("");
+        };
+
+        const pressDigit = (digit) => {
+          setError("");
+          setPin((current) => {
+            if (current.length >= 6) return current;
+            const next = `${current}${digit}`;
+            if (next.length === 6) {
+              setTimeout(() => submitPin(next), 120);
+            }
+            return next;
+          });
+        };
+
+        const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "del"];
+
+        return (
+          <main className="auth-screen relative h-[100svh] min-h-[100vh] overflow-hidden bg-black p-3 text-white sm:p-5 md:p-8">
+            <div className="cosmic-stars">
+              {Array.from({ length: 46 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="cosmic-star"
+                  style={{
+                    left: `${(index * 19) % 100}%`,
+                    top: `${(index * 37) % 100}%`,
+                    "--duration": `${7 + (index % 8)}s`,
+                    "--opacity": 0.26 + (index % 6) * 0.1,
+                    "--drift-x": `${(index % 2 ? 1 : -1) * (12 + index)}px`,
+                    "--drift-y": `${-14 - (index % 6) * 7}px`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="relative z-10 grid h-full min-h-0 grid-rows-[minmax(0,0.75fr)_minmax(0,1.25fr)] overflow-hidden rounded-[1.5rem] md:grid-rows-1 md:grid-cols-[1.05fr_0.95fr]">
+              <motion.div
+                initial={{ opacity: 0, filter: "blur(14px)", x: -18 }}
+                animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="liquid-glass relative min-h-0 overflow-hidden rounded-[1.5rem] md:rounded-r-none"
+              >
+                <img
+                  src="password.jpeg"
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full scale-105 object-cover opacity-35 blur-xl"
+                />
+                <img
+                  src="password.jpeg"
+                  alt="Password memory"
+                  className="relative z-[1] h-full w-full object-contain opacity-95"
+                />
+                <div className="absolute inset-0 z-[2] bg-black/10" />
+                <div className="absolute bottom-5 left-5 right-5 z-[3] md:bottom-6 md:left-6 md:right-6">
+                  <div className="cinematic-text font-heading text-4xl italic leading-none sm:text-5xl md:text-7xl">
+                    Happy Birthday
+                    <br />
+                    love
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, filter: "blur(14px)", x: 18 }}
+                animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                className="liquid-glass flex min-h-0 flex-col justify-center overflow-hidden rounded-[1.5rem] p-4 sm:p-5 md:rounded-l-none md:p-10"
+              >
+                <div className="mx-auto w-full max-w-sm">
+                  <div className="cinematic-text-soft mb-3 font-body text-xs uppercase tracking-[0.32em]">
+                    Private constellation
+                  </div>
+                  <h1 className="cinematic-text font-heading text-4xl italic leading-[0.9] sm:text-5xl md:text-6xl">
+                    Enter the
+                    <br />
+                    star code
+                  </h1>
+
+                  <div className="liquid-glass mt-5 rounded-[1.25rem] p-4 sm:mt-6 md:mt-8 md:p-5">
+                    <div className="mb-4 flex justify-center gap-3 md:mb-5">
+                      {Array.from({ length: 6 }).map((_, index) => (
+                        <span
+                          key={index}
+                          className={`pin-dot ${index < pin.length ? "is-filled" : ""}`}
+                        />
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2.5 md:gap-3">
+                      {keys.map((key) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => {
+                            if (key === "clear") {
+                              setPin("");
+                              setError("");
+                              return;
+                            }
+                            if (key === "del") {
+                              setPin((current) => current.slice(0, -1));
+                              setError("");
+                              return;
+                            }
+                            pressDigit(key);
+                          }}
+                          className="liquid-glass interactive-glow flex h-11 items-center justify-center rounded-[1rem] font-body text-base font-semibold text-white sm:h-12 md:h-16"
+                        >
+                          {key === "clear" ? "C" : key === "del" ? "DEL" : key}
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => submitPin()}
+                      className="liquid-glass-strong interactive-glow mt-4 flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 font-body text-sm font-semibold text-white"
+                    >
+                      Unlock Our Universe
+                      <ArrowUpRight className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="mt-4 min-h-[1.25rem] text-center font-body text-sm font-medium text-white/80">
+                    {error || "Use the date only we know."}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </main>
+        );
+      };
+
+      window.LoadingScreen = LoadingScreen;
+      window.MusicPlayer = MusicPlayer;
+      window.CustomCursor = CustomCursor;
+      window.PasswordGate = PasswordGate;
+    </script>
+
+    <script type="text/babel">
+      const App = () => {
+        const [unlocked, setUnlocked] = React.useState(
+          () => sessionStorage.getItem("birthday-unlocked") === "true"
+        );
+
+        const unlockSite = () => {
+          sessionStorage.setItem("birthday-unlocked", "true");
+          setUnlocked(true);
+        };
+
+        if (!unlocked) {
+          return <PasswordGate onUnlock={unlockSite} />;
+        }
+
+        return (
+          <main className="bg-black font-body text-white">
+            <LoadingScreen />
+            <CustomCursor />
+          <MusicPlayer />
+          <Hero />
+          <MemoriesGallery />
+          <Capabilities />
+          <LoveLetter />
+          <FinalSurprise />
+          </main>
+        );
+      };
+
+      window.App = App;
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
