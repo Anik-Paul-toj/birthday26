@@ -442,6 +442,43 @@
         animation: musicPulse 1.8s ease-in-out infinite;
       }
 
+      .video-carousel-frame {
+        mask-image: linear-gradient(
+          90deg,
+          transparent 0%,
+          #000 7%,
+          #000 93%,
+          transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+          90deg,
+          transparent 0%,
+          #000 7%,
+          #000 93%,
+          transparent 100%
+        );
+      }
+
+      .video-carousel-track {
+        width: max-content;
+        animation: videoCarouselTravel 52s linear infinite;
+        will-change: transform;
+      }
+
+      .video-carousel-card {
+        width: clamp(210px, 24vw, 360px);
+        aspect-ratio: 9 / 16;
+      }
+
+      @keyframes videoCarouselTravel {
+        from {
+          transform: translate3d(0, 0, 0);
+        }
+        to {
+          transform: translate3d(-50%, 0, 0);
+        }
+      }
+
       @keyframes musicPulse {
         50% {
           box-shadow:
@@ -1662,7 +1699,22 @@
       const CAPABILITIES_VIDEO =
         "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4";
 
-      const STORY_VIDEO = "videos.mp4";
+      const storyVideos = [
+        "videos.mp4",
+        "WhatsApp Video 2026-06-04 at 12.45.46 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.46.52 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.47.32 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.48.15 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.48.36 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.49.07 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.49.53 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.51.17 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.51.42 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.52.34 PM.mp4",
+        "WhatsApp Video 2026-06-04 at 12.52.56 PM.mp4",
+      ];
+
+      const carouselVideos = [...storyVideos, ...storyVideos];
 
       const Capabilities = () => (
         <section className="romantic-cosmos section-fade-top relative -mt-24 min-h-screen overflow-hidden bg-black pt-24">
@@ -1689,15 +1741,26 @@
               onMouseLeave={window.resetReactiveCard}
               className="liquid-glass reactive-card interactive-glow mt-16 overflow-hidden rounded-[1.25rem] p-2"
             >
-              <video
-                src={STORY_VIDEO}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                className="aspect-video max-h-[62vh] w-full rounded-[1rem] object-cover"
-              />
+              <div className="video-carousel-frame overflow-hidden rounded-[1rem] py-3">
+                <div className="video-carousel-track flex gap-4">
+                  {carouselVideos.map((src, index) => (
+                    <div
+                      key={`${src}-${index}`}
+                      className="video-carousel-card liquid-glass shrink-0 overflow-hidden rounded-[1rem] bg-black/50"
+                    >
+                      <video
+                        src={src}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
