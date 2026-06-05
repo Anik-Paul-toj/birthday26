@@ -386,6 +386,21 @@
           #000;
       }
 
+      .countdown-screen {
+        background:
+          radial-gradient(circle at 18% 18%, rgba(255, 212, 63, 0.16), transparent 28%),
+          radial-gradient(circle at 82% 24%, rgba(42, 157, 143, 0.14), transparent 30%),
+          radial-gradient(circle at 52% 86%, rgba(230, 57, 70, 0.15), transparent 34%),
+          #000;
+      }
+
+      .countdown-card {
+        box-shadow:
+          0 30px 100px rgba(0, 0, 0, 0.38),
+          0 0 70px rgba(255, 212, 63, 0.08),
+          inset 0 1px 1px rgba(255, 255, 255, 0.16);
+      }
+
       .pin-dot {
         width: 12px;
         height: 12px;
@@ -2506,6 +2521,161 @@
         );
       };
 
+      const COUNTDOWN_TARGET = Date.parse("2026-06-07T00:00:00+05:30");
+      const COUNTDOWN_AUDIO =
+        "Shinchan Cartoon Theme Song - Lyrical Video _ LyricalLyfe.mp3.mp3";
+      const COUNTDOWN_DAY_MS = 24 * 60 * 60 * 1000;
+      const COUNTDOWN_HOUR_MS = 60 * 60 * 1000;
+      const COUNTDOWN_MINUTE_MS = 60 * 1000;
+
+      const getCountdownParts = () => {
+        const total = Math.max(0, COUNTDOWN_TARGET - Date.now());
+        const days = Math.floor(total / COUNTDOWN_DAY_MS);
+        const hours = Math.floor((total % COUNTDOWN_DAY_MS) / COUNTDOWN_HOUR_MS);
+        const minutes = Math.floor((total % COUNTDOWN_HOUR_MS) / COUNTDOWN_MINUTE_MS);
+        const seconds = Math.floor((total % COUNTDOWN_MINUTE_MS) / 1000);
+
+        return { total, days, hours, minutes, seconds };
+      };
+
+      const CountdownGate = ({ onComplete }) => {
+        const audioRef = React.useRef(null);
+        const [remaining, setRemaining] = React.useState(getCountdownParts);
+        const [audioBlocked, setAudioBlocked] = React.useState(false);
+        const [audioPlaying, setAudioPlaying] = React.useState(false);
+
+        const playCountdownAudio = React.useCallback(() => {
+          const audio = audioRef.current;
+          if (!audio) return;
+
+          audio.volume = 0.5;
+          const promise = audio.play();
+
+          if (promise && promise.then) {
+            promise
+              .then(() => {
+                setAudioPlaying(true);
+                setAudioBlocked(false);
+              })
+              .catch(() => {
+                setAudioPlaying(false);
+                setAudioBlocked(true);
+              });
+          }
+        }, []);
+
+        React.useEffect(() => {
+          playCountdownAudio();
+
+          const timer = setInterval(() => {
+            const next = getCountdownParts();
+            setRemaining(next);
+
+            if (next.total <= 0) {
+              clearInterval(timer);
+
+              if (audioRef.current) {
+                audioRef.current.pause();
+              }
+
+              setTimeout(onComplete, 700);
+            }
+          }, 250);
+
+          return () => {
+            clearInterval(timer);
+
+            if (audioRef.current) {
+              audioRef.current.pause();
+            }
+          };
+        }, [onComplete, playCountdownAudio]);
+
+        const units = [
+          { label: "Days", value: remaining.days },
+          { label: "Hours", value: remaining.hours },
+          { label: "Minutes", value: remaining.minutes },
+          { label: "Seconds", value: remaining.seconds },
+        ];
+
+        return (
+          <main className="countdown-screen relative flex h-[100svh] min-h-[100vh] items-center overflow-hidden bg-black px-5 py-8 text-white">
+            <audio ref={audioRef} src={COUNTDOWN_AUDIO} loop preload="auto" autoPlay />
+
+            <div className="cosmic-stars">
+              {Array.from({ length: 64 }).map((_, index) => (
+                <span
+                  key={index}
+                  className="cosmic-star"
+                  style={{
+                    left: `${(index * 17) % 100}%`,
+                    top: `${(index * 43) % 100}%`,
+                    "--duration": `${6 + (index % 9)}s`,
+                    "--opacity": 0.24 + (index % 7) * 0.1,
+                    "--drift-x": `${(index % 2 ? 1 : -1) * (12 + index)}px`,
+                    "--drift-y": `${-16 - (index % 6) * 8}px`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <motion.section
+              initial={{ opacity: 0, filter: "blur(18px)", y: 22 }}
+              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative z-10 mx-auto w-full max-w-5xl text-center"
+            >
+              <div className="liquid-glass countdown-card rounded-[1.5rem] px-5 py-8 sm:px-8 md:px-10 md:py-12">
+                <div className="cinematic-text-soft font-body text-xs font-semibold uppercase tracking-[0.32em]">
+                  Birthday universe opens at midnight
+                </div>
+                <h1 className="cinematic-text mx-auto mt-5 max-w-3xl font-heading text-5xl italic leading-[0.88] sm:text-6xl md:text-8xl">
+                  Counting down to her day
+                </h1>
+
+                <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+                  {units.map((unit) => (
+                    <div
+                      key={unit.label}
+                      className="liquid-glass rounded-[1.25rem] px-4 py-5"
+                    >
+                      <div className="cinematic-text font-heading text-5xl italic leading-none md:text-6xl">
+                        {String(unit.value).padStart(2, "0")}
+                      </div>
+                      <div className="cinematic-text-soft mt-2 font-body text-xs font-semibold uppercase tracking-[0.22em]">
+                        {unit.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                  {audioBlocked && (
+                    <button
+                      type="button"
+                      onClick={playCountdownAudio}
+                      className="liquid-glass-strong interactive-glow flex items-center gap-2 rounded-full px-4 py-2 font-body text-xs font-semibold text-white"
+                    >
+                      <MusicIcon />
+                      Start Countdown Sound
+                    </button>
+                  )}
+
+                  {audioPlaying && (
+                    <div className="liquid-glass cinematic-text-soft music-playing flex items-center gap-2 rounded-full px-4 py-2 font-body text-xs font-semibold">
+                      <span className="music-eq" aria-hidden="true">
+                        <span />
+                        <span />
+                        <span />
+                      </span>
+                      Sound On
+                    </div>
+                  )}
+                </div>
+            </motion.section>
+          </main>
+        );
+      };
+
       const PASSWORD_HASH = 639002021;
 
       const hashPin = (value) =>
@@ -2668,19 +2838,32 @@
       window.LoadingScreen = LoadingScreen;
       window.MusicPlayer = MusicPlayer;
       window.CustomCursor = CustomCursor;
+      window.COUNTDOWN_TARGET = COUNTDOWN_TARGET;
+      window.CountdownGate = CountdownGate;
       window.PasswordGate = PasswordGate;
     </script>
 
     <script type="text/babel">
       const App = () => {
+        const [countdownDone, setCountdownDone] = React.useState(
+          () => Date.now() >= window.COUNTDOWN_TARGET
+        );
         const [unlocked, setUnlocked] = React.useState(
           () => sessionStorage.getItem("birthday-unlocked") === "true"
         );
+
+        const finishCountdown = () => {
+          setCountdownDone(true);
+        };
 
         const unlockSite = () => {
           sessionStorage.setItem("birthday-unlocked", "true");
           setUnlocked(true);
         };
+
+        if (!countdownDone) {
+          return <CountdownGate onComplete={finishCountdown} />;
+        }
 
         if (!unlocked) {
           return <PasswordGate onUnlock={unlockSite} />;
