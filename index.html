@@ -1240,6 +1240,21 @@
       const HERO_VIDEO =
         "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_094631_d30ab262-45ee-4b7d-99f3-5d5848c8ef13.mp4";
 
+      const RELATIONSHIP_START = new Date(2023, 11, 16);
+      const DAY_MS = 24 * 60 * 60 * 1000;
+
+      const getRelationshipDays = () => {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const start = new Date(
+          RELATIONSHIP_START.getFullYear(),
+          RELATIONSHIP_START.getMonth(),
+          RELATIONSHIP_START.getDate()
+        );
+
+        return Math.max(0, Math.floor((today - start) / DAY_MS));
+      };
+
       const StatCard = ({ icon, value, label }) => (
         <div className="liquid-glass stat-card-muted flex w-[220px] flex-col rounded-[1.25rem] p-5 text-left">
           <div className="cinematic-text-soft">{icon}</div>
@@ -1252,7 +1267,20 @@
         </div>
       );
 
-      const Hero = () => (
+      const Hero = () => {
+        const [relationshipDays, setRelationshipDays] = React.useState(() =>
+          getRelationshipDays()
+        );
+
+        React.useEffect(() => {
+          const timer = setInterval(() => {
+            setRelationshipDays(getRelationshipDays());
+          }, 60 * 1000);
+
+          return () => clearInterval(timer);
+        }, []);
+
+        return (
         <section id="universe" className="romantic-cosmos relative min-h-screen overflow-hidden bg-black">
           <FadingVideo
             src={HERO_VIDEO}
@@ -1305,7 +1333,7 @@
               >
                 <StatCard
                   icon={<ClockIcon />}
-                  value="891 Days"
+                  value={`${relationshipDays} Days`}
                   label="Since 16 Dec 2023"
                 />
                 <StatCard
@@ -1331,7 +1359,8 @@
             </motion.div>
           </div>
         </section>
-      );
+        );
+      };
 
       window.Hero = Hero;
     </script>
