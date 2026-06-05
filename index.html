@@ -2625,13 +2625,13 @@
       const CountdownGate = ({ onComplete }) => {
         const audioRef = React.useRef(null);
         const [remaining, setRemaining] = React.useState(getCountdownParts);
-        const [audioBlocked, setAudioBlocked] = React.useState(false);
         const [audioPlaying, setAudioPlaying] = React.useState(false);
 
-        const playCountdownAudio = React.useCallback(() => {
+        const playCountdownAudio = React.useCallback((showBlockedState = true) => {
           const audio = audioRef.current;
           if (!audio) return;
 
+          audio.muted = false;
           audio.volume = 0.5;
           const promise = audio.play();
 
@@ -2639,17 +2639,18 @@
             promise
               .then(() => {
                 setAudioPlaying(true);
-                setAudioBlocked(false);
               })
               .catch(() => {
                 setAudioPlaying(false);
-                setAudioBlocked(true);
+                return;
               });
+          } else if (!audio.paused) {
+            setAudioPlaying(true);
           }
         }, []);
 
         React.useEffect(() => {
-          playCountdownAudio();
+          playCountdownAudio(false);
 
           const timer = setInterval(() => {
             const next = getCountdownParts();
@@ -2665,9 +2666,37 @@
               setTimeout(onComplete, 700);
             }
           }, 250);
+          const retryTimer = setTimeout(() => playCountdownAudio(true), 650);
+
+          const unlockAudio = () => {
+            playCountdownAudio(true);
+          };
+
+          const retryWhenVisible = () => {
+            if (!document.hidden) {
+              playCountdownAudio(true);
+            }
+          };
+
+          const audio = audioRef.current;
+          audio?.addEventListener("loadeddata", unlockAudio);
+          audio?.addEventListener("canplay", unlockAudio);
+          document.addEventListener("visibilitychange", retryWhenVisible);
+          window.addEventListener("pointerdown", unlockAudio, true);
+          window.addEventListener("touchstart", unlockAudio, true);
+          window.addEventListener("click", unlockAudio, true);
+          window.addEventListener("keydown", unlockAudio, true);
 
           return () => {
             clearInterval(timer);
+            clearTimeout(retryTimer);
+            audio?.removeEventListener("loadeddata", unlockAudio);
+            audio?.removeEventListener("canplay", unlockAudio);
+            document.removeEventListener("visibilitychange", retryWhenVisible);
+            window.removeEventListener("pointerdown", unlockAudio, true);
+            window.removeEventListener("touchstart", unlockAudio, true);
+            window.removeEventListener("click", unlockAudio, true);
+            window.removeEventListener("keydown", unlockAudio, true);
 
             if (audioRef.current) {
               audioRef.current.pause();
@@ -2745,31 +2774,29 @@
                 </div>
 
                 <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <div className="liquid-glass cinematic-text-soft rounded-full px-4 py-2 font-body text-xs font-semibold">
-                    12:00 AM IST - 07 June 2026
-                  </div>
+                  
 
-                  {audioBlocked && (
-                    <button
-                      type="button"
-                      onClick={playCountdownAudio}
-                      className="liquid-glass-strong interactive-glow flex items-center gap-2 rounded-full px-4 py-2 font-body text-xs font-semibold text-white"
-                    >
-                      <MusicIcon />
-                      Start Countdown Sound
-                    </button>
-                  )}
-
-                  {audioPlaying && (
-                    <div className="liquid-glass cinematic-text-soft music-playing flex items-center gap-2 rounded-full px-4 py-2 font-body text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => playCountdownAudio(true)}
+                    className={`liquid-glass-strong interactive-glow cinematic-text-soft flex max-w-full items-center justify-center gap-2 rounded-full px-4 py-2 text-center font-body text-xs font-semibold leading-tight ${
+                      audioPlaying ? "music-playing" : ""
+                    }`}
+                  >
+                    <MusicIcon />
+                    <span>
+                      {audioPlaying
+                        ? "Birthday song playing"
+                        : "Click here to play your birthday song"}
+                    </span>
+                    {audioPlaying && (
                       <span className="music-eq" aria-hidden="true">
                         <span />
                         <span />
                         <span />
                       </span>
-                      Sound On
-                    </div>
-                  )}
+                    )}
+                  </button>
                 </div>
 
                 <div className="video-carousel-frame mt-6 overflow-hidden rounded-[1rem] py-2">
