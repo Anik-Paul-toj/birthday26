@@ -575,7 +575,7 @@
 
       .shinchan-float {
         offset-path: path(
-          "M 80 160 C 320 40, 620 340, 890 120 S 1280 80, 1420 360 S 900 560, 560 420 S 180 640, 80 300 Z"
+          "M 120 220 C 420 90, 760 340, 1180 170 S 1240 520, 780 500 S 260 580, 120 220 Z"
         );
         offset-rotate: 0deg;
         animation: shinchanFloat 26s cubic-bezier(0.45, 0, 0.55, 1) infinite;
@@ -593,8 +593,8 @@
 
       .shinchan-pop {
         z-index: 4;
-        width: clamp(92px, 15vw, 150px);
-        animation: shinchanPop 2.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        width: clamp(78px, 12vw, 118px);
+        animation: shinchanPop 1.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         filter:
           drop-shadow(0 18px 32px rgba(0, 0, 0, 0.48))
           drop-shadow(0 0 24px rgba(236, 72, 153, 0.5));
@@ -1152,7 +1152,7 @@
         };
 
         return (
-          <nav className="fixed left-0 right-0 top-4 z-50 px-8 lg:px-16">
+          <nav className="fixed left-0 right-0 top-4 z-[100] isolate px-8 lg:px-16">
             <div className="flex items-center justify-between">
               <a
                 href="#universe"
@@ -1261,8 +1261,6 @@
           />
 
           <div className="relative z-10 flex min-h-screen flex-col">
-            <Navbar />
-
             <div className="flex flex-1 flex-col items-center justify-center px-4 pt-24 text-center">
               <BlurText
                 text={"Across Every Universe, I\u2019d Still Find You"}
@@ -1344,12 +1342,31 @@
         card: "gif.gif",
         surprise: "gif (2).gif",
         kiss: "Kiss Me Love Sticker by Shin chan Official.gif",
+        roamers: [
+          "gif (1).gif",
+          "shin chan STICKER.gif",
+        ],
+        cardStickers: [
+          "gif.gif",
+        ],
+        corners: [
+          "gif 74.gif",
+          "gif13.gif",
+          "Crayon Shinchan Love Sticker by Shin chan Official.gif",
+          "shin chan STICKER.gif",
+        ],
+        surprisePops: [
+          "gif (2).gif",
+          "Kiss Me Love Sticker by Shin chan Official.gif",
+        ],
       };
 
       const galleryImages = [
         {
           src: "assets/images/memory-01.jpeg",
           caption: "My Shinchan paglu",
+          sticker: shinchanAssets.corners[0],
+          stickerStyle: { right: "0.75rem", top: "0.75rem" },
         },
         {
           src: "assets/images/memory-02.jpeg",
@@ -1358,6 +1375,8 @@
         {
           src: "assets/images/memory-03.jpeg",
           caption: "My princess in a galaxy of her own.",
+          sticker: shinchanAssets.corners[1],
+          stickerStyle: { left: "0.75rem", bottom: "0.75rem" },
         },
         {
           src: "assets/images/memory-04.jpeg",
@@ -1366,6 +1385,8 @@
         {
           src: "assets/images/memory-05.jpeg",
           caption: "The future, glowing quietly in the distance.",
+          sticker: shinchanAssets.corners[2],
+          stickerStyle: { right: "0.75rem", bottom: "0.75rem" },
         },
         {
           src: "assets/images/memory-06.jpeg",
@@ -1374,6 +1395,8 @@
         {
           src: "assets/images/memory-07.jpeg",
           caption: "Always be my weirdo, in this universe and the next.",
+          sticker: shinchanAssets.corners[3],
+          stickerStyle: { left: "0.75rem", top: "0.75rem" },
         },
         {
           src: "assets/images/memory-08.jpeg",
@@ -1403,12 +1426,19 @@
               ))}
             </div>
 
-            <motion.img
-              {...entrance(0.35)}
-              src={shinchanAssets.floating}
-              alt="Floating Shinchan sticker"
-              className="shinchan-float pointer-events-none absolute left-0 top-0 z-10 w-24 opacity-95 md:w-32"
-            />
+            {shinchanAssets.roamers.map((src, index) => (
+              <motion.img
+                key={src}
+                {...entrance(0.22 + index * 0.08)}
+                src={src}
+                alt="Floating Shinchan sticker"
+                className="shinchan-float pointer-events-none absolute left-0 top-0 z-10 w-16 opacity-70 md:w-24"
+                style={{
+                  animationDelay: `${index * -8}s`,
+                  animationDuration: `${30 + index * 6}s`,
+                }}
+              />
+            ))}
 
             <div className="relative z-10 mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
               <motion.div {...entrance(0)} className="max-w-3xl">
@@ -1430,11 +1460,16 @@
                 className="liquid-glass reactive-card interactive-glow mt-8 grid overflow-hidden rounded-[1.25rem] md:grid-cols-[0.85fr_1.15fr]"
               >
                 <div className="shinchan-card-media flex items-center justify-center p-5">
-                  <img
-                    src={shinchanAssets.card}
-                    alt="Shinchan sticker"
-                    className="max-h-44 w-auto object-contain"
-                  />
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    {shinchanAssets.cardStickers.map((src) => (
+                      <img
+                        key={src}
+                        src={src}
+                        alt="Shinchan sticker"
+                        className="max-h-40 w-auto object-contain md:max-h-44"
+                      />
+                    ))}
+                  </div>
                 </div>
                 <div className="flex flex-col justify-center p-5 text-left md:p-6">
                   <div className="font-body text-xs font-semibold uppercase tracking-[0.24em] text-white/60">
@@ -1466,6 +1501,15 @@
                       alt={item.caption}
                       className="block h-auto w-full opacity-95 transition duration-500 group-hover:scale-[1.025] group-hover:opacity-100"
                     />
+                    {item.sticker && (
+                      <img
+                        src={item.sticker}
+                        alt=""
+                        aria-hidden="true"
+                        className="pointer-events-none absolute z-20 w-14 select-none object-contain opacity-95 drop-shadow-[0_12px_18px_rgba(0,0,0,0.45)] transition duration-500 group-hover:scale-110 md:w-20"
+                        style={item.stickerStyle}
+                      />
+                    )}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/38 p-4 opacity-0 backdrop-blur-[2px] transition duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
                       <div className="liquid-glass max-w-[86%] rounded-[1rem] px-4 py-3 text-center">
                         <div className="font-body text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70">
@@ -1849,28 +1893,16 @@
             rotation: `${index * 37}deg`,
           }));
 
-          const shinchanPops = [
-            {
-              id: `${Date.now()}-shinchan-1`,
-              type: "shinchan",
-              src: shinchanAssets.surprise,
-              x: "50%",
-              y: "57%",
-              dx: "-120px",
-              dy: "-155px",
-              rotation: "-10deg",
-            },
-            {
-              id: `${Date.now()}-shinchan-2`,
-              type: "shinchan",
-              src: shinchanAssets.kiss,
-              x: "50%",
-              y: "57%",
-              dx: "126px",
-              dy: "-135px",
-              rotation: "12deg",
-            },
-          ];
+          const shinchanPops = shinchanAssets.surprisePops.map((src, index) => ({
+            id: `${Date.now()}-shinchan-${index}`,
+            type: "shinchan",
+            src,
+            x: `${48 + (index % 3) * 2}%`,
+            y: "57%",
+            dx: `${Math.cos(index * 1.15) * (110 + (index % 3) * 34)}px`,
+            dy: `${Math.sin(index * 1.15) * 44 - 150 - (index % 2) * 30}px`,
+            rotation: `${(index % 2 === 0 ? -1 : 1) * (8 + index * 4)}deg`,
+          }));
 
           setBurst([...particles, ...shinchanPops]);
           setTimeout(() => setFlashing(false), 950);
@@ -2564,6 +2596,7 @@
         return (
           <main className="bg-black font-body text-white">
             <LoadingScreen />
+            <Navbar />
             <CustomCursor />
           <MusicPlayer />
           <Hero />
