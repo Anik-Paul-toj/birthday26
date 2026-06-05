@@ -1675,6 +1675,67 @@
       const LOVE_LETTER_VIDEO =
         "AQMTk8ubdmSOJdBet9F0lA7JgKeEBZSWCSBToF890s25CiSEWCBA1nwGo5bt0UyS57JrmsJHuyZxFGgfWZMfXxO3fMqwg_XBX5wdP98.mp4";
 
+      const LoveStoryVideo = () => {
+        const videoRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const video = videoRef.current;
+          if (!video) return undefined;
+
+          const playVideo = () => {
+            video.muted = false;
+            const promise = video.play();
+            if (promise && promise.catch) {
+              promise.catch(() => {});
+            }
+          };
+
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                playVideo();
+                return;
+              }
+
+              video.pause();
+            },
+            { threshold: 0.45 }
+          );
+
+          const handleCanPlay = () => {
+            const rect = video.getBoundingClientRect();
+            const isVisible =
+              rect.top < window.innerHeight * 0.75 &&
+              rect.bottom > window.innerHeight * 0.25;
+
+            if (isVisible) {
+              playVideo();
+            }
+          };
+
+          observer.observe(video);
+          video.addEventListener("canplay", handleCanPlay);
+
+          return () => {
+            observer.disconnect();
+            video.removeEventListener("canplay", handleCanPlay);
+          };
+        }, []);
+
+        return (
+          <video
+            ref={videoRef}
+            src={LOVE_LETTER_VIDEO}
+            autoPlay
+            loop
+            playsInline
+            preload="auto"
+            controls
+            className="mx-auto block max-h-[58svh] w-auto max-w-full rounded-[1rem]"
+          />
+        );
+      };
+
       const TypewriterLetter = () => {
         const [started, setStarted] = React.useState(false);
         const [lineIndex, setLineIndex] = React.useState(0);
@@ -1780,15 +1841,7 @@
               onMouseLeave={window.resetReactiveCard}
               className="liquid-glass reactive-card interactive-glow mx-auto w-full max-w-xs overflow-hidden rounded-[1.25rem] p-2"
             >
-              <video
-                src={LOVE_LETTER_VIDEO}
-                autoPlay
-                loop
-                playsInline
-                preload="auto"
-                controls
-                className="mx-auto block max-h-[58svh] w-auto max-w-full rounded-[1rem]"
-              />
+              <LoveStoryVideo />
             </motion.div>
           </div>
         </section>
