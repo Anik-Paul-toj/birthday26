@@ -401,6 +401,23 @@
           inset 0 1px 1px rgba(255, 255, 255, 0.16);
       }
 
+      .countdown-sticker {
+        filter:
+          drop-shadow(0 18px 30px rgba(0, 0, 0, 0.48))
+          drop-shadow(0 0 22px rgba(255, 212, 63, 0.22));
+        animation: countdownStickerFloat 5.8s ease-in-out infinite alternate;
+      }
+
+      @keyframes countdownStickerFloat {
+        from {
+          transform: translate3d(0, 0, 0) rotate(var(--rotate-from, -4deg));
+        }
+        to {
+          transform: translate3d(0, var(--float-y, -16px), 0)
+            rotate(var(--rotate-to, 5deg));
+        }
+      }
+
       .pin-dot {
         width: 12px;
         height: 12px;
@@ -507,6 +524,11 @@
       .video-carousel-card {
         width: clamp(210px, 24vw, 360px);
         aspect-ratio: 9 / 16;
+      }
+
+      .countdown-photo-card {
+        width: clamp(110px, 12vw, 170px);
+        aspect-ratio: 4 / 5;
       }
 
       @keyframes videoCarouselTravel {
@@ -1382,26 +1404,26 @@
 
     <script type="text/babel">
       const shinchanAssets = {
-        floating: "gif (1).gif",
-        card: "gif.gif",
-        surprise: "gif (2).gif",
-        kiss: "Kiss Me Love Sticker by Shin chan Official.gif",
+        floating: "assets/gifs/gif (1).gif",
+        card: "assets/gifs/gif.gif",
+        surprise: "assets/gifs/gif (2).gif",
+        kiss: "assets/gifs/Kiss Me Love Sticker by Shin chan Official.gif",
         roamers: [
-          "gif (1).gif",
-          "shin chan STICKER.gif",
+          "assets/gifs/gif (1).gif",
+          "assets/gifs/shin chan STICKER.gif",
         ],
         cardStickers: [
-          "gif.gif",
+          "assets/gifs/gif.gif",
         ],
         corners: [
-          "gif 74.gif",
-          "gif13.gif",
-          "Crayon Shinchan Love Sticker by Shin chan Official.gif",
-          "shin chan STICKER.gif",
+          "assets/gifs/gif 74.gif",
+          "assets/gifs/gif13.gif",
+          "assets/gifs/Crayon Shinchan Love Sticker by Shin chan Official.gif",
+          "assets/gifs/shin chan STICKER.gif",
         ],
         surprisePops: [
-          "gif (2).gif",
-          "Kiss Me Love Sticker by Shin chan Official.gif",
+          "assets/gifs/gif (2).gif",
+          "assets/gifs/Kiss Me Love Sticker by Shin chan Official.gif",
         ],
       };
 
@@ -1688,7 +1710,7 @@
       ];
 
       const LOVE_LETTER_VIDEO =
-        "AQMTk8ubdmSOJdBet9F0lA7JgKeEBZSWCSBToF890s25CiSEWCBA1nwGo5bt0UyS57JrmsJHuyZxFGgfWZMfXxO3fMqwg_XBX5wdP98.mp4";
+        "assets/videos/AQMTk8ubdmSOJdBet9F0lA7JgKeEBZSWCSBToF890s25CiSEWCBA1nwGo5bt0UyS57JrmsJHuyZxFGgfWZMfXxO3fMqwg_XBX5wdP98.mp4";
 
       const LoveStoryVideo = () => {
         const videoRef = React.useRef(null);
@@ -2230,7 +2252,15 @@
       const CAPABILITIES_VIDEO =
         "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4";
 
+      const uploadedStoryVideos = [
+        "assets/videos/WhatsApp Video 2026-06-06 at 1.38.08 AM.mp4",
+        "assets/videos/WhatsApp Video 2026-06-06 at 1.38.10 AM.mp4",
+        "assets/videos/WhatsApp Video 2026-06-06 at 1.38.12 AM.mp4",
+        "assets/videos/AQMTk8ubdmSOJdBet9F0lA7JgKeEBZSWCSBToF890s25CiSEWCBA1nwGo5bt0UyS57JrmsJHuyZxFGgfWZMfXxO3fMqwg_XBX5wdP98.mp4",
+      ];
+
       const storyVideos = [
+        ...uploadedStoryVideos,
         "assets/videos/story-00.mp4",
         "assets/videos/story-01.mp4",
         "assets/videos/story-02.mp4",
@@ -2258,7 +2288,11 @@
         "assets/videos/story-24.mp4",
       ];
 
-      const carouselVideos = [...storyVideos, ...storyVideos];
+      const shuffledStoryVideos = storyVideos
+        .map((src) => ({ src, order: Math.random() }))
+        .sort((first, second) => first.order - second.order)
+        .map((item) => item.src);
+      const carouselVideos = [...shuffledStoryVideos, ...shuffledStoryVideos];
 
       const Capabilities = () => (
         <section id="story-videos" className="romantic-cosmos section-fade-top relative -mt-24 min-h-screen overflow-hidden bg-black pt-24">
@@ -2523,7 +2557,57 @@
 
       const COUNTDOWN_TARGET = Date.parse("2026-06-07T00:00:00+05:30");
       const COUNTDOWN_AUDIO =
-        "Shinchan Cartoon Theme Song - Lyrical Video _ LyricalLyfe.mp3.mp3";
+        "assets/audio/Shinchan Cartoon Theme Song - Lyrical Video _ LyricalLyfe.mp3.mp3";
+      const countdownPhotos = [
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.00 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.01 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.01 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.01 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.08 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.09 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.09 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.09 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.10 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.10 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.11 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.11 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.11 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.12 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.12 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.12 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.13 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.13 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.13 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.14 AM.jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.14 AM (1).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.14 AM (2).jpeg",
+        "assets/images/countdown/WhatsApp Image 2026-06-06 at 1.38.15 AM.jpeg",
+      ];
+      const shuffledCountdownPhotos = countdownPhotos
+        .map((src) => ({ src, order: Math.random() }))
+        .sort((first, second) => first.order - second.order)
+        .map((item) => item.src);
+      const countdownCarouselPhotos = [
+        ...shuffledCountdownPhotos,
+        ...shuffledCountdownPhotos,
+      ];
+      const countdownStickers = [
+        {
+          src: "assets/gifs/gif (1).gif",
+          className: "left-[4%] top-[12%] w-16 md:w-24",
+          style: { "--float-y": "-18px", "--rotate-from": "-6deg", "--rotate-to": "5deg" },
+        },
+        {
+          src: "assets/gifs/Kiss Me Love Sticker by Shin chan Official.gif",
+          className: "right-[5%] top-[14%] w-16 md:w-24",
+          style: { "--float-y": "-14px", "--rotate-from": "5deg", "--rotate-to": "-4deg", animationDelay: "-1.8s" },
+        },
+        {
+          src: "assets/gifs/gif13.gif",
+          className: "bottom-[7%] left-[7%] w-14 md:w-20",
+          style: { "--float-y": "-12px", "--rotate-from": "3deg", "--rotate-to": "-5deg", animationDelay: "-3s" },
+        },
+      ];
       const COUNTDOWN_DAY_MS = 24 * 60 * 60 * 1000;
       const COUNTDOWN_HOUR_MS = 60 * 60 * 1000;
       const COUNTDOWN_MINUTE_MS = 60 * 1000;
@@ -2619,6 +2703,17 @@
               ))}
             </div>
 
+            {countdownStickers.map((sticker) => (
+              <img
+                key={sticker.src}
+                src={sticker.src}
+                alt=""
+                aria-hidden="true"
+                className={`countdown-sticker pointer-events-none absolute z-[9] select-none object-contain opacity-90 ${sticker.className}`}
+                style={sticker.style}
+              />
+            ))}
+
             <motion.section
               initial={{ opacity: 0, filter: "blur(18px)", y: 22 }}
               animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
@@ -2627,7 +2722,7 @@
             >
               <div className="liquid-glass countdown-card rounded-[1.5rem] px-5 py-8 sm:px-8 md:px-10 md:py-12">
                 <div className="cinematic-text-soft font-body text-xs font-semibold uppercase tracking-[0.32em]">
-                  Birthday universe opens at midnight
+                  Happy Birthday love
                 </div>
                 <h1 className="cinematic-text mx-auto mt-5 max-w-3xl font-heading text-5xl italic leading-[0.88] sm:text-6xl md:text-8xl">
                   Counting down to her day
@@ -2648,6 +2743,11 @@
                     </div>
                   ))}
                 </div>
+
+                <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <div className="liquid-glass cinematic-text-soft rounded-full px-4 py-2 font-body text-xs font-semibold">
+                    12:00 AM IST - 07 June 2026
+                  </div>
 
                   {audioBlocked && (
                     <button
@@ -2671,6 +2771,28 @@
                     </div>
                   )}
                 </div>
+
+                <div className="video-carousel-frame mt-6 overflow-hidden rounded-[1rem] py-2">
+                  <div
+                    className="video-carousel-track flex gap-3"
+                    style={{ animationDuration: "46s" }}
+                  >
+                    {countdownCarouselPhotos.map((src, index) => (
+                      <div
+                        key={`${src}-${index}`}
+                        className="countdown-photo-card liquid-glass shrink-0 overflow-hidden rounded-[1rem] bg-black/40"
+                      >
+                        <img
+                          src={src}
+                          alt=""
+                          aria-hidden="true"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </motion.section>
           </main>
         );
